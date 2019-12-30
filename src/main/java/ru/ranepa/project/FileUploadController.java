@@ -75,11 +75,11 @@ public class FileUploadController {
             XWPFDocument document = new XWPFDocument(file.getInputStream());
             XWPFWordExtractor extractor = new XWPFWordExtractor(document);
             String myString = extractor.getText();
-            byte bytes[] = myString.getBytes("UTF-8");
+            byte[] bytes = myString.getBytes("UTF-8");
             String value = new String(bytes, "UTF-8");
+            value = value.replaceAll("\n|\r\n", " ");
             String uniqueID = UUID.randomUUID().toString();
             data.add(new String[] { uniqueID, value });
-
         }
         writer.writeAll(data);
         byte[] bytes = Files.readAllBytes(csv.toPath());
